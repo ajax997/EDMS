@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/EDMS.iml" filepath="$PROJECT_DIR$/.idea/EDMS.iml" />
+      <module fileurl="file://$USER_HOME$/Desktop/edmsworkspace/.idea/edmsworkspace.iml" filepath="$USER_HOME$/Desktop/edmsworkspace/.idea/edmsworkspace.iml" />
     </modules>
   </component>
 </project>
