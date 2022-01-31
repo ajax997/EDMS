@@ -2,18 +2,19 @@ package controllers
 
 import (
 	"database/sql"
-	"encoding/json"
 	"fmt"
 )
 
 type BaseHandler struct {
-	db *sql.DB
+	db         *sql.DB
+	systemVars map[string]string
 }
 
 // NewBaseHandler returns a new BaseHandler
-func NewBaseHandler(db *sql.DB) *BaseHandler {
+func NewBaseHandler(db *sql.DB, vars map[string]string) *BaseHandler {
 	return &BaseHandler{
-		db: db,
+		db:         db,
+		systemVars: vars,
 	}
 }
 
@@ -25,7 +26,7 @@ func (h *BaseHandler) ExecuteSilentSQL(sqlStatement string) bool {
 	return true
 }
 
-func (h *BaseHandler) ExecuteSQLJSON(sqlStatement string) string {
+func (h *BaseHandler) ExecuteSQLJSON(sqlStatement string) []map[string]interface{} {
 	rows, err := h.db.Query(sqlStatement)
 	if err != nil {
 		panic(err.Error())
@@ -61,10 +62,9 @@ func (h *BaseHandler) ExecuteSQLJSON(sqlStatement string) string {
 		}
 		tableData = append(tableData, entry)
 	}
-	jsonData, err := json.Marshal(tableData)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(string(jsonData))
-	return ""
+	//jsonData, err := json.Marshal(tableData)
+	//if err != nil {
+	//	panic(err)
+	//}
+	return tableData
 }

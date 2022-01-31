@@ -1,4 +1,4 @@
-package controllers
+package main
 
 func StringArrayIndexOf(element string, data []string) int {
 	for k, v := range data {
