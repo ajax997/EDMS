@@ -2,6 +2,8 @@ package sqlbuilder
 
 import (
 	"fmt"
+	"github.com/ajax997/EDMS/utils"
+	"strings"
 )
 
 func GenerateQueryGetAllTable() string {
@@ -35,3 +37,33 @@ func GenerateQueryGetAllTable() string {
 //
 //	return insertColumnStatement, nil
 //}
+
+func GenerateSQLStatementNewDatabaseColumn(columnActualName, table, dataType string, unique bool) string {
+	sqlStatement := fmt.Sprintf("ALTER TABLE %v ADD %v %v NULL; ", table, columnActualName, dataType)
+	if unique {
+		sqlStatement += fmt.Sprintf("CREATE UNIQUE INDEX %v_%v_uindex ON %v (%v);", table, columnActualName, table, columnActualName)
+	}
+	if val, err := IsSQLValid(sqlStatement); val {
+		return sqlStatement
+	} else {
+		panic(err.Error())
+	}
+}
+
+func GenerateSQLStatementNewSystemColumn() string {
+	sqlStatement := ""
+	//TODO
+	return sqlStatement
+}
+
+func GenerateSQLStatementNewWrapper(columnTable string, insertInformation map[string]string) string {
+	columns, values := utils.GetSliceOfKeysAndValuesFromMap(insertInformation)
+	//TODO
+	sqlStatement := fmt.Sprintf("INSERT INTO %v (%v) VALUES ('%v')", columnTable, strings.Join(columns[:], ","), strings.Join(values[:], "','"))
+
+	if val, err := IsSQLValid(sqlStatement); val {
+		return sqlStatement
+	} else {
+		panic(err.Error())
+	}
+}

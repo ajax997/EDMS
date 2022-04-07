@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/ajax997/EDMS/sqlbuilder"
+	"github.com/ajax997/EDMS/utils"
 	"github.com/gorilla/mux"
-	"io"
 	"net/http"
 )
 
@@ -56,17 +56,12 @@ func (h *BaseHandler) InsertNewRecord(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
-	fieldJsonMap := make(map[string]interface{}, 0)
-	bodyBytes, err := io.ReadAll(r.Body)
-	if err != nil {
-		panic(err.Error())
-	}
-	json.Unmarshal(bodyBytes, &fieldJsonMap)
+	fieldJsonMap := utils.ExtractPOSTRequestBody(r)
 
 	newRecordColumn := make([]string, 0)
 	newRecordValue := make([]string, 0)
 	for inputKey, inputValue := range fieldJsonMap {
-		if StringArrayIndexOf(inputKey, columnList) != -1 {
+		if utils.StringArrayIndexOf(inputKey, columnList) != -1 {
 			newRecordColumn = append(newRecordColumn, inputKey)
 			newRecordValue = append(newRecordValue, fmt.Sprintf("'%s'", inputValue.(string)))
 		}

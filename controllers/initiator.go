@@ -3,18 +3,21 @@ package controllers
 import (
 	"database/sql"
 	"fmt"
+	"github.com/ajax997/EDMS/session"
 )
 
 type BaseHandler struct {
 	db         *sql.DB
 	systemVars map[string]string
+	session    *session.MySQLStore
 }
 
 // NewBaseHandler returns a new BaseHandler
-func NewBaseHandler(db *sql.DB, vars map[string]string) *BaseHandler {
+func NewBaseHandler(db *sql.DB, vars map[string]string, sessionManager *session.MySQLStore) *BaseHandler {
 	return &BaseHandler{
 		db:         db,
 		systemVars: vars,
+		session:    sessionManager,
 	}
 }
 
